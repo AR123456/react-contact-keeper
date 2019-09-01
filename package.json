@@ -1,0 +1,28 @@
+{
+  "name": "react-contact-keeper",
+  "version": "1.0.0",
+  "description": "Full stack MERN contact keeper",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AR123456/react-contact-keeper.git"
+  },
+  "keywords": [],
+  "author": "Anne",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AR123456/react-contact-keeper/issues"
+  },
+  "homepage": "https://github.com/AR123456/react-contact-keeper#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.2.2",
+    "express": "^4.17.1",
+    "express-validator": "^6.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.6.11"
+  }
+}
