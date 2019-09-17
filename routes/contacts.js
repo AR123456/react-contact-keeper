@@ -82,16 +82,20 @@ router.put("/:id", auth, async (req, res) => {
     if (!contact) return res.status(404).json({ msg: "Contact not found" });
 
     // Make sure user owns contact
+    //compare to user in token, needs to be a string
     if (contact.user.toString() !== req.user.id) {
       return res.status(401).json({ msg: "Not authorized" });
     }
 
     contact = await Contact.findByIdAndUpdate(
+      // takes in id
       req.params.id,
+      // now sert the contact fields
       { $set: contactFields },
+      // update if true
       { new: true }
     );
-
+    // send the updated contact
     res.json(contact);
   } catch (err) {
     console.error(er.message);
@@ -112,7 +116,7 @@ router.delete("/:id", auth, async (req, res) => {
     if (contact.user.toString() !== req.user.id) {
       return res.status(401).json({ msg: "Not authorized" });
     }
-
+    // dont use delete it is depricated
     await Contact.findByIdAndRemove(req.params.id);
 
     res.json({ msg: "Contact removed" });
