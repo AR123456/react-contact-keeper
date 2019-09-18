@@ -1,4 +1,11 @@
 config/
+/client/build
+/client/.env.local
+/client/.env.development.local
+/client/.env.test.local
+/client/.env.production.local
+
+
 # Logs
 logs
 *.log
