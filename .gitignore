@@ -4,7 +4,8 @@ config/
 /client/.env.development.local
 /client/.env.test.local
 /client/.env.production.local
-
+node_modules/
+/client/node_modules/
 
 # Logs
 logs
