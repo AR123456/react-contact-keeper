@@ -4,7 +4,9 @@ const About = () => {
   return (
     <div>
       <h1>About this app</h1>
-      <p>This is a full stack React app for keeping contacts</p>
+      <p className="my-1">
+        This is a full stack React app for keeping contacts
+      </p>
       <p className="bg-dark">
         <strong>Version</strong>1.0.0
       </p>
