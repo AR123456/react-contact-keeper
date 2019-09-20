@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import uuid from "uuid";
 import ContactContext from "./contactContext";
-import ContactReducer from "./contactReducer";
+import contactReducer from "./contactReducer";
 import {
   ADD_CONTACT,
   DELETE_CONTACT,
@@ -12,7 +12,7 @@ import {
   CLEAR_FILTER
 } from "../types";
 
-const ContactStare = props => {
+const ContactState = props => {
   const initialState = {
     contacts: [
       {
@@ -23,37 +23,70 @@ const ContactStare = props => {
         type: "personal"
       },
       {
-        id: 1,
+        id: 2,
         name: "Sara Watson",
         email: "sara@gmail.com",
         phone: "222-111-1111",
         type: "personal"
       },
       {
-        id: 1,
+        id: 3,
         name: "Hary White",
         email: "harry@gmail.com",
         phone: "333-111-1111",
         type: "professional"
       }
-    ]
+    ],
+    current: null,
+    filtered: null
   };
   ///pull out state and dispatch from reducer using reducer hooks
-  const [state, dispatch] = userReducer(ContactReducer, initialState);
+  const [state, dispatch] = useReducer(contactReducer, initialState);
   //Add Contact
+  const addContact = contact => {
+    contact.id = uuid.v4();
+    dispatch({ type: ADD_CONTACT, payload: contact });
+  };
   // Delete Contact
+  const deleteContact = id => {
+    dispatch({ type: DELETE_CONTACT, payload: id });
+  };
 
   // Set current contact
+  const setCurrent = contact => {
+    dispatch({ type: SET_CURRENT, payload: contact });
+  };
   //Clear current contact
+  const clearCurrent = () => {
+    dispatch({ type: CLEAR_CURRENT });
+  };
   //Update Contact
-  //Filter Contacts
+  const updateContact = contact => {
+    dispatch({ type: UPDATE_CONTACT, payload: contact });
+  };
+  // Filter Contacts
+  const filterContacts = text => {
+    dispatch({ type: FILTER_CONTACTS, payload: text });
+  };
+
   // Clear Filter
+  const clearFilter = () => {
+    dispatch({ type: CLEAR_FILTER });
+  };
 
   //// return provider in order to wrap the application in this contexts
   return (
     <ContactContext.Provider
       value={{
-        contacts: state.contacts
+        contacts: state.contacts,
+        current: state.current,
+        filtered: state.filtered,
+        deleteContact,
+        setCurrent,
+        clearCurrent,
+        updateContact,
+        filterContacts,
+        clearFilter
       }}
     >
       {props.children}
