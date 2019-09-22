@@ -23,70 +23,37 @@ const ContactState = props => {
         type: "personal"
       },
       {
-        id: 2,
+        id: 1,
         name: "Sara Watson",
         email: "sara@gmail.com",
         phone: "222-111-1111",
         type: "personal"
       },
       {
-        id: 3,
+        id: 1,
         name: "Hary White",
         email: "harry@gmail.com",
         phone: "333-111-1111",
         type: "professional"
       }
-    ],
-    current: null,
-    filtered: null
+    ]
   };
   ///pull out state and dispatch from reducer using reducer hooks
   const [state, dispatch] = useReducer(contactReducer, initialState);
   //Add Contact
-  const addContact = contact => {
-    contact.id = uuid.v4();
-    dispatch({ type: ADD_CONTACT, payload: contact });
-  };
   // Delete Contact
-  const deleteContact = id => {
-    dispatch({ type: DELETE_CONTACT, payload: id });
-  };
 
   // Set current contact
-  const setCurrent = contact => {
-    dispatch({ type: SET_CURRENT, payload: contact });
-  };
   //Clear current contact
-  const clearCurrent = () => {
-    dispatch({ type: CLEAR_CURRENT });
-  };
   //Update Contact
-  const updateContact = contact => {
-    dispatch({ type: UPDATE_CONTACT, payload: contact });
-  };
-  // Filter Contacts
-  const filterContacts = text => {
-    dispatch({ type: FILTER_CONTACTS, payload: text });
-  };
-
+  //Filter Contacts
   // Clear Filter
-  const clearFilter = () => {
-    dispatch({ type: CLEAR_FILTER });
-  };
 
   //// return provider in order to wrap the application in this contexts
   return (
     <ContactContext.Provider
       value={{
-        contacts: state.contacts,
-        current: state.current,
-        filtered: state.filtered,
-        deleteContact,
-        setCurrent,
-        clearCurrent,
-        updateContact,
-        filterContacts,
-        clearFilter
+        contacts: state.contacts
       }}
     >
       {props.children}
