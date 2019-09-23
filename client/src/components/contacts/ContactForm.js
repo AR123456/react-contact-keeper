@@ -73,7 +73,7 @@ const ContactForm = () => {
       <div>
         <input
           type="submit"
-          value="AddContact"
+          value="Add Contact"
           className="btn btn-primary btn-block"
         />
       </div>
