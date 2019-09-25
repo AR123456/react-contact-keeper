@@ -37,7 +37,8 @@ const ContactState = props => {
         type: "professional"
       }
     ],
-    current: null
+    current: null,
+    filtered: null
   };
   ///pull out state and dispatch from reducer using reducer hooks
   const [state, dispatch] = useReducer(contactReducer, initialState);
@@ -63,8 +64,15 @@ const ContactState = props => {
   const updateContact = contact => {
     dispatch({ type: UPDATE_CONTACT, payload: contact });
   };
-  //Filter Contacts
+  // Filter Contacts
+  const filterContacts = text => {
+    dispatch({ type: FILTER_CONTACTS, payload: text });
+  };
+
   // Clear Filter
+  const clearFilter = () => {
+    dispatch({ type: CLEAR_FILTER });
+  };
 
   //// return provider in order to wrap the application in this contexts
   return (
@@ -72,11 +80,13 @@ const ContactState = props => {
       value={{
         contacts: state.contacts,
         current: state.current,
-        addContact,
+        filtered: state.filtered,
         deleteContact,
         setCurrent,
         clearCurrent,
-        updateContact
+        updateContact,
+        filterContacts,
+        clearFilter
       }}
     >
       {props.children}
