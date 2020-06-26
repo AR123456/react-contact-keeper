@@ -25,13 +25,12 @@ const ContactForm = () => {
     phone: "",
     type: "personal"
   });
+
   const { name, email, phone, type } = contact;
 
   const onChange = e =>
-    setContact({
-      ...contact,
-      [e.target.name]: e.target.value
-    });
+    setContact({ ...contact, [e.target.name]: e.target.value });
+
   const onSubmit = e => {
     e.preventDefault();
     if (current === null) {
@@ -41,9 +40,11 @@ const ContactForm = () => {
     }
     clearAll();
   };
+
   const clearAll = () => {
     clearCurrent();
   };
+
   return (
     <form onSubmit={onSubmit}>
       <h2 className="text-primary">
@@ -51,22 +52,22 @@ const ContactForm = () => {
       </h2>
       <input
         type="text"
-        name="name"
         placeholder="Name"
+        name="name"
         value={name}
         onChange={onChange}
       />
       <input
         type="email"
-        name="email"
         placeholder="Email"
+        name="email"
         value={email}
         onChange={onChange}
       />
       <input
         type="text"
-        name="phone"
         placeholder="Phone"
+        name="phone"
         value={phone}
         onChange={onChange}
       />
@@ -78,7 +79,7 @@ const ContactForm = () => {
         checked={type === "personal"}
         onChange={onChange}
       />{" "}
-      Personal
+      Personal{" "}
       <input
         type="radio"
         name="type"

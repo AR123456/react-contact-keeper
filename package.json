@@ -8,19 +8,12 @@
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "clientinstall": "npm install --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AR123456/react-contact-keeper.git"
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "keywords": [],
   "author": "Anne",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/AR123456/react-contact-keeper/issues"
-  },
-  "homepage": "https://github.com/AR123456/react-contact-keeper#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "config": "^3.2.2",
@@ -30,6 +23,7 @@
     "mongoose": "^5.6.11"
   },
   "devDependencies": {
-    "concurrently": "^4.1.2"
+    "concurrently": "^4.1.2",
+    "nodemon": "^1.19.1"
   }
 }

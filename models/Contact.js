@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const ContactSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -19,7 +20,6 @@ const ContactSchema = mongoose.Schema({
     type: String,
     default: "personal"
   },
-
   date: {
     type: Date,
     default: Date.now

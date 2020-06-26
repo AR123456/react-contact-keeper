@@ -3,12 +3,13 @@ import uuid from "uuid";
 import AlertContext from "./alertContext";
 import alertReducer from "./alertReducer";
 import { SET_ALERT, REMOVE_ALERT } from "../types";
+
 const AlertState = props => {
   const initialState = [];
 
-  ///pull out state and dispatch from reducer using reducer hooks
   const [state, dispatch] = useReducer(alertReducer, initialState);
-  //set alert
+
+  // Set Alert
   const setAlert = (msg, type, timeout = 5000) => {
     const id = uuid.v4();
     dispatch({
@@ -18,8 +19,6 @@ const AlertState = props => {
 
     setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), timeout);
   };
-
-  //// return provider in order to wrap the application in this contexts
 
   return (
     <AlertContext.Provider
@@ -32,4 +31,5 @@ const AlertState = props => {
     </AlertContext.Provider>
   );
 };
+
 export default AlertState;

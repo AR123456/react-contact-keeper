@@ -27,6 +27,7 @@ const Register = props => {
     password: "",
     password2: ""
   });
+
   const { name, email, password, password2 } = user;
 
   const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
@@ -45,11 +46,10 @@ const Register = props => {
       });
     }
   };
-
   return (
-    <div className="form-containter">
+    <div className="form-container">
       <h1>
-        Account <span className="text-primary"> Register</span>
+        Account <span className="text-primary">Register</span>
       </h1>
       <form onSubmit={onSubmit}>
         <div className="form-group">
@@ -60,17 +60,17 @@ const Register = props => {
             value={name}
             onChange={onChange}
             required
-          ></input>
+          />
         </div>
         <div className="form-group">
-          <label htmlFor="email ">Email</label>
+          <label htmlFor="email">Email Address</label>
           <input
             type="email"
             name="email"
             value={email}
             onChange={onChange}
             required
-          ></input>
+          />
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
@@ -81,10 +81,10 @@ const Register = props => {
             onChange={onChange}
             required
             minLength="6"
-          ></input>
+          />
         </div>
         <div className="form-group">
-          <label htmlFor="password2"> Confirm Password</label>
+          <label htmlFor="password2">Confirm Password</label>
           <input
             type="password"
             name="password2"
@@ -92,16 +92,15 @@ const Register = props => {
             onChange={onChange}
             required
             minLength="6"
-          ></input>
+          />
         </div>
         <input
           type="submit"
           value="Register"
           className="btn btn-primary btn-block"
-        ></input>
+        />
       </form>
     </div>
   );
 };
-
 export default Register;
