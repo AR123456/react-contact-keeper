@@ -28,7 +28,7 @@ const Navbar = ({ title, icon }) => {
       </li>
     </Fragment>
   );
-
+  // adding Register and Login to nav bar
   const guestLinks = (
     <Fragment>
       <li>
@@ -51,12 +51,12 @@ const Navbar = ({ title, icon }) => {
 };
 Navbar.propTypes = {
   title: PropTypes.string.isRequired,
-  icon: PropTypes.string
+  icon: PropTypes.string,
 };
 
 Navbar.defaultProps = {
   title: "Contact Keeper",
-  icon: "fas fa-id-card-alt"
+  icon: "fas fa-id-card-alt",
 };
 
 export default Navbar;

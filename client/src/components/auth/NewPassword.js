@@ -3,34 +3,33 @@ import React, { useState, useContext, useEffect } from "react";
 import AlertContext from "../../context/alert/alertContext";
 import AuthContext from "../../context/auth/authContext";
 
-const Register = (props) => {
+const NewPassword = (props) => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
-  const { register, error, clearErrors, isAuthenticated } = authContext;
+  //   const { register, error, clearErrors, isAuthenticated } = authContext;
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      props.history.push("/");
-    }
+  //   useEffect(() => {
+  //     if (isAuthenticated) {
+  //       props.history.push("/");
+  //     }
 
-    if (error === "User already exists") {
-      setAlert(error, "danger");
-      clearErrors();
-    }
-    // eslint-disable-next-line
-  }, [error, isAuthenticated, props.history]);
+  //     if (error === "User already exists") {
+  //       setAlert(error, "danger");
+  //       clearErrors();
+  //     }
+  //     // eslint-disable-next-line
+  //   }, [error, isAuthenticated, props.history]);
   // because this is a form  use state to add the component level state
   const [user, setUser] = useState({
     // send in object that is state
-    name: "",
-    email: "",
+
     password: "",
     password2: "",
   });
   // destructuring so that we can use as variables
-  const { name, email, password, password2 } = user;
+  const { password, password2 } = user;
   // wireing up the onChange in the input's in the form groups
   // take in the event, setUser object , need current values so use ... the spread operator
   // using the name attributes on the inputs and set the value to what is in the value attribute
@@ -42,27 +41,26 @@ const Register = (props) => {
     // preventDefault form behaivor
     e.preventDefault();
     // call a method to register when form submited.
-    if (name === "" || email === "" || password === "") {
+    if (password === "" || password2 === "") {
       setAlert("Please enter all fields", "danger");
     } else if (password !== password2) {
       setAlert("Passwords do not match", "danger");
-    } else {
-      register({
-        name,
-        email,
-        password,
-      });
     }
+    //  else {
+    //   register({
+    //      password,
+    //   });
+    // }
   };
   return (
     // class is form-container which is a more narrow form
     <div className="form-container">
       <h1>
-        Account <span className="text-primary">Register</span>
+        Account <span className="text-primary">New Password</span>
       </h1>
       {/* form an onSubmit  with form groups that have labels and inputs, inputs will have an onChange   */}
       <form onSubmit={onSubmit}>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="name">Name</label>
           <input
             type="text"
@@ -81,7 +79,7 @@ const Register = (props) => {
             onChange={onChange}
             required
           />
-        </div>
+        </div> */}
         <div className="form-group">
           <label htmlFor="password">Password</label>
           <input
@@ -107,11 +105,11 @@ const Register = (props) => {
         {/* input with type of submit and value of Register  */}
         <input
           type="submit"
-          value="Register"
+          value="NewPassword"
           className="btn btn-primary btn-block"
         />
       </form>
     </div>
   );
 };
-export default Register;
+export default NewPassword;
