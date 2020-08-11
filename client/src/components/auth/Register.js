@@ -2,24 +2,33 @@
 import React, { useState, useContext, useEffect } from "react";
 // bring in alertContext
 import AlertContext from "../../context/alert/alertContext";
+// bring in auth contexts that has the state management and axios call to back end
 import AuthContext from "../../context/auth/authContext";
 
 const Register = (props) => {
   const alertContext = useContext(AlertContext);
+  // initialize authContext
   const authContext = useContext(AuthContext);
-
+  // alertContext is going to allow us to show errors coming from the server side in the UI
   const { setAlert } = alertContext;
-  const { register, error, clearErrors, isAuthenticated } = authContext;
+  // destructure from authContext
 
+  const { register, error, clearErrors, isAuthenticated } = authContext;
+  // want to show the errors from back end, put into a use effect hook
   useEffect(() => {
     if (isAuthenticated) {
       props.history.push("/");
     }
-
+    // checking to see if it mathces the actual error text, if this was a
+    // larger app would want to give errors unique ids and use that
     if (error === "User already exists") {
+      // setAlert to the error with a type of danger
       setAlert(error, "danger");
+      // calling clearErrors tthat we got from authContext
       clearErrors();
     }
+    // since we want this to run when error is added to state so add error
+    // as a dependancy to use effect
     // eslint-disable-next-line
   }, [error, isAuthenticated, props.history]);
   // because this is a form  use state to add the component level state
@@ -39,6 +48,7 @@ const Register = (props) => {
   const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
   // wireing up the onSubmit in the form
   //takes in the event
+  //////// onSubmit is where we want to call register
   const onSubmit = (e) => {
     // preventDefault form behaivor
     e.preventDefault();
@@ -48,7 +58,9 @@ const Register = (props) => {
     } else if (password !== password2) {
       setAlert("Passwords do not match", "danger");
     } else {
+      // call register from the AuthState in context
       register({
+        // register takes in  form data object
         name,
         email,
         password,

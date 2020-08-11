@@ -10,17 +10,16 @@ const User = require("../models/User");
 // @route     POST api/users
 // @desc      Regiter a user
 // @access    Public
+// On the Front end the component AuthState is interacting with this route in an axios request
 router.post(
   "/",
   [
-    check("name", "Please add name")
-      .not()
-      .isEmpty(),
+    check("name", "Please add name").not().isEmpty(),
     check("email", "Please include a valid email").isEmail(),
     check(
       "password",
       "Please enter a password with 6 or more characters"
-    ).isLength({ min: 6 })
+    ).isLength({ min: 6 }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -40,7 +39,7 @@ router.post(
       user = new User({
         name,
         email,
-        password
+        password,
       });
 
       const salt = await bcrypt.genSalt(10);
@@ -51,18 +50,20 @@ router.post(
 
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
 
       jwt.sign(
         payload,
         config.get("jwtSecret"),
         {
-          expiresIn: 360000
+          expiresIn: 360000,
         },
         (err, token) => {
           if (err) throw err;
+          //  this jwt to persist log in is being sent to the front end
+          // recived in the AuthState.js component
           res.json({ token });
         }
       );

@@ -1,5 +1,8 @@
 // Auth State /Context to handle all of our authentication
 import React, { useReducer } from "react";
+// calling action in AuthState called register will hit server ,
+//put user in DB and return a token the we have to handle
+// using axios to make request to back end server
 import axios from "axios";
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
@@ -49,26 +52,40 @@ const AuthState = (props) => {
     }
   };
 
-  // Register User - sign user up , get token back
+  ///////////////////////// Register User - sign user up , get token back
+  // register will be called in the onSubmit in the Register.js component.
+  // async , takes in formData to register user
   const register = async (formData) => {
+    // post request sending data so need content type header of applicaiton/json
+    // to do this in axios need a config object
     const config = {
+      //  with a headers object
       headers: {
         "Content-Type": "application/json",
       },
     };
-
+    // put this in a try  catch because we are making a reuest
     try {
+      // axios is making reqeust to back end
+      // variable for response res
+      // await on post reqeust which returns a promise
+      // url coming from the proxy value in package.json + "/api/users"
+      // then formData and the config defined above
       const res = await axios.post("/api/users", formData, config);
-
+      // dispatch to reducer
       dispatch({
+        // the type is going to be register success
         type: REGISTER_SUCCESS,
+        // in res.data is the token
         payload: res.data,
       });
 
       loadUser();
     } catch (err) {
       dispatch({
+        // if the email is already taken will get register fail
         type: REGISTER_FAIL,
+        // by putting msg in payload the error email alaready taken can show on front end
         payload: err.response.data.msg,
       });
     }
@@ -100,15 +117,19 @@ const AuthState = (props) => {
   };
   //// TODO request reset - will take user email validate it and generate crypto token
   // with expiration, add to user in the db  , sendgrid email
+  const requestReset = () => {
+    console.log("request reset");
+  };
 
   //// TODO  set new password - will get the token from the url, match it with the token
-  // in the db, allow for new password, update the db , log in user and set local storage
-  // with logged in token
-
+  // in the db, allow for new password, update the db , log in user and set local storage with logged in token
+  const newPasword = () => {
+    console.log("new Password ");
+  };
   // Logout - will destroy the token and clean up
   const logout = () => dispatch({ type: LOGOUT });
 
-  // Clear Errors
+  // Clear Errors -
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   return (
@@ -120,7 +141,10 @@ const AuthState = (props) => {
         loading: state.loading,
         user: state.user,
         error: state.error,
+        // need to export the register function
         register,
+        requestReset,
+        newPasword,
         loadUser,
         login,
         logout,
