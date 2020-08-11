@@ -87,8 +87,8 @@ const NewPassword = (props) => {
             name="password"
             value={password}
             onChange={onChange}
-            required
-            minLength="6"
+            // required
+            // minLength="6"
           />
         </div>
         <div className="form-group">
@@ -98,8 +98,8 @@ const NewPassword = (props) => {
             name="password2"
             value={password2}
             onChange={onChange}
-            required
-            minLength="6"
+            // required
+            // minLength="6"
           />
         </div>
         {/* input with type of submit and value of Register  */}

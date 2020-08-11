@@ -9,6 +9,7 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import RequestReset from "./components/auth/RequestReset";
 import NewPassword from "./components/auth/NewPassword";
+// making use of Alerts
 import Alerts from "./components/layout/Alerts";
 import PrivateRoute from "./components/routing/PrivateRoute";
 
@@ -33,6 +34,7 @@ const App = () => {
             <Fragment>
               <Navbar />
               <div className="container">
+                {/* making use of Alerts  */}
                 <Alerts />
                 <Switch>
                   <PrivateRoute exact path="/" component={Home} />

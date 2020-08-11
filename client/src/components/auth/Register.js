@@ -1,5 +1,6 @@
 // need to bring this component into App.js to see it
 import React, { useState, useContext, useEffect } from "react";
+// bring in alertContext
 import AlertContext from "../../context/alert/alertContext";
 import AuthContext from "../../context/auth/authContext";
 
