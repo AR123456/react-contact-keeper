@@ -14,11 +14,14 @@ import {
 export default (state, action) => {
   // look at action.type
   switch (action.type) {
+    //
     case USER_LOADED:
       return {
+        // get all the state
         ...state,
         isAuthenticated: true,
         loading: false,
+        // user data from the payload, from the response
         user: action.payload,
       };
     case REGISTER_SUCCESS:

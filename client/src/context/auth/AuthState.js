@@ -6,6 +6,7 @@ import React, { useReducer } from "react";
 import axios from "axios";
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
+// use the global setAuthToken
 import setAuthToken from "../../utils/setAuthToken";
 import {
   REGISTER_SUCCESS,
@@ -33,18 +34,24 @@ const AuthState = (props) => {
   // get the authReducer from that file
   const [state, dispatch] = useReducer(authReducer, initialState);
   ///////////////////////// ///// actions
-  // Load User - will take care of checking which  user is logged in
-  // will hit the auth end point and get the user data
+  // Load User - will take care of checking which  user is logged in will hit the auth end point and get the user data
+
+  // Get user from back end and put into state, validate authentication to access the home page for example- in client, src utils
+  // asynce because we are making a request to the back end
   const loadUser = async () => {
+    // set the token into a global header in a seprate file that does that so we dont have to repeat that for every method like when we fetch and add contacts.
     if (localStorage.token) {
+      // if the token exists set it in the header- need to call this here and in the main app.js because we want this to load every time the main coponent loads
       setAuthToken(localStorage.token);
     }
 
     try {
+      //get requst to the route that checks token to see if are a valid user
       const res = await axios.get("/api/auth");
-
+      // if you are a valid user dispath
       dispatch({
         type: USER_LOADED,
+        // res.data here is user data
         payload: res.data,
       });
     } catch (err) {
@@ -79,7 +86,8 @@ const AuthState = (props) => {
         // in res.data is the token
         payload: res.data,
       });
-
+      // after successful register loadUser so once we register it should load the user
+      //TODO after password reset load user
       loadUser();
     } catch (err) {
       dispatch({

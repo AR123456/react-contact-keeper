@@ -4,7 +4,7 @@ import React, { useState, useContext, useEffect } from "react";
 import AlertContext from "../../context/alert/alertContext";
 // bring in auth contexts that has the state management and axios call to back end
 import AuthContext from "../../context/auth/authContext";
-
+// pass in props to register
 const Register = (props) => {
   const alertContext = useContext(AlertContext);
   // initialize authContext
@@ -16,7 +16,10 @@ const Register = (props) => {
   const { register, error, clearErrors, isAuthenticated } = authContext;
   // want to show the errors from back end, put into a use effect hook
   useEffect(() => {
+    // add this javascript to useEffect to redirect to homepage in this case
     if (isAuthenticated) {
+      // react way to do a redirect
+      //TODO replicate this for password reset
       props.history.push("/");
     }
     // checking to see if it mathces the actual error text, if this was a
@@ -28,7 +31,9 @@ const Register = (props) => {
       clearErrors();
     }
     // since we want this to run when error is added to state so add error
+    // also adding isAuthenticated and props.history
     // as a dependancy to use effect
+    // adding eslint so that it stops reacts waring for clearErros and setAlert, if we added them it would cause and infinate loop
     // eslint-disable-next-line
   }, [error, isAuthenticated, props.history]);
   // because this is a form  use state to add the component level state
