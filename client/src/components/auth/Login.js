@@ -1,20 +1,24 @@
 // will need to bring this into app js to use
 import React, { useState, useContext, useEffect } from "react";
+// bring in auth and alert context
 import AuthContext from "../../context/auth/authContext";
 import AlertContext from "../../context/alert/alertContext";
 
 const Login = (props) => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
-
+  // initialize the alert and auth contexts
   const { setAlert } = alertContext;
+  // need login method
   const { login, error, clearErrors, isAuthenticated } = authContext;
 
   useEffect(() => {
+    // if the user is already authenticated go to the / route
     if (isAuthenticated) {
+      // to use this make sure to pass props into Login
       props.history.push("/");
     }
-
+    // this needs to match the error message exactly
     if (error === "Invalid Credentials") {
       setAlert(error, "danger");
       clearErrors();
@@ -44,6 +48,7 @@ const Login = (props) => {
     if (email === "" || password === "") {
       setAlert("Please fill in all fields", "danger");
     } else {
+      // pass email and password to login AuthState in context
       login({
         email,
         password,

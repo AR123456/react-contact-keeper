@@ -46,7 +46,7 @@ const AuthState = (props) => {
     }
 
     try {
-      //get requst to the route that checks token to see if are a valid user
+      //get request to the route that checks token to see if are a valid user
       const res = await axios.get("/api/auth");
       // if you are a valid user dispath
       dispatch({
@@ -99,7 +99,8 @@ const AuthState = (props) => {
     }
   };
 
-  // Login User - log user in and get token
+  ////////////////////////// Login User - log user in and get token
+  // need the formData and the header
   const login = async (formData) => {
     const config = {
       headers: {
@@ -108,17 +109,21 @@ const AuthState = (props) => {
     };
 
     try {
+      // go to auth end point
       const res = await axios.post("/api/auth", formData, config);
 
       dispatch({
+        // dispatch login success
         type: LOGIN_SUCCESS,
+        // send response data as payload
         payload: res.data,
       });
-
+      // load the user
       loadUser();
     } catch (err) {
       dispatch({
         type: LOGIN_FAIL,
+        // if there is an err put the message in state
         payload: err.response.data.msg,
       });
     }
