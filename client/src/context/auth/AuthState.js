@@ -140,6 +140,7 @@ const AuthState = (props) => {
     console.log("new Password ");
   };
   // Logout - will destroy the token and clean up
+  // dispatch the logout type to authReducer
   const logout = () => dispatch({ type: LOGOUT });
 
   // Clear Errors -

@@ -42,7 +42,7 @@ export default (state, action) => {
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT:
-      // removed the token
+      // removed the token from local storage
       localStorage.removeItem("token");
       // resetting this stuff
       return {
