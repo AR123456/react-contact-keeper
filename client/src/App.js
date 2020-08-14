@@ -11,6 +11,7 @@ import RequestReset from "./components/auth/RequestReset";
 import NewPassword from "./components/auth/NewPassword";
 // making use of Alerts
 import Alerts from "./components/layout/Alerts";
+// to make the home page a private route
 import PrivateRoute from "./components/routing/PrivateRoute";
 
 import ContactState from "./context/contact/ContactState";
@@ -37,6 +38,7 @@ const App = () => {
                 {/* making use of Alerts  */}
                 <Alerts />
                 <Switch>
+                  {/* wraping the home page in private route */}
                   <PrivateRoute exact path="/" component={Home} />
                   <Route exact path="/about" component={About} />
                   {/* adding register to the routes in the Switch  */}
