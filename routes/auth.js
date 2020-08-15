@@ -82,7 +82,7 @@ router.post(
 // @access    Public
 // TODO get the request from front end, if email in the DB generate a re set token
 // seems like this is a get first , then post
-/// this did not work, will get signup confrimation working first
+// this did not work, backing out for now and will work on confrimation email first
 // router.post(
 //   "/",
 //   [check("email", "Please include a valid email").isEmail()],

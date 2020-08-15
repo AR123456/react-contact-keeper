@@ -20,7 +20,9 @@
     "express": "^4.17.1",
     "express-validator": "^6.2.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.6.11"
+    "mongoose": "^5.6.11",
+    "nodemailer": "^6.4.11",
+    "nodemailer-sendgrid-transport": "^0.2.0"
   },
   "devDependencies": {
     "concurrently": "^4.1.2",

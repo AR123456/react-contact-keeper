@@ -4,8 +4,20 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const { check, validationResult } = require("express-validator");
-
+// for welcome email
+const nodemailer = require("nodemailer");
+const sendgridTransport = require("nodemailer-sendgrid-transport");
 const User = require("../models/User");
+// TODO hide API key
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+    // auth object
+    auth: {
+      // api user and key object, all that is really needed is api_key
+      api_key: "#",
+    },
+  })
+);
 
 // @route     POST api/users
 // @desc      Register a user
@@ -67,6 +79,14 @@ router.post(
           res.json({ token });
         }
       );
+      // after registration is complete sent Welcome email
+      // js object we want to send email too
+      transporter.sendMail({
+        to: email,
+        from: "contact@node-complete.com",
+        subject: "Signup succeeded!",
+        html: "<h1>You successfully signed up!</h1>",
+      });
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
