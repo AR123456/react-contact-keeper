@@ -13,6 +13,8 @@ app.use(express.json({ extended: false }));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/contacts", require("./routes/contacts"));
+// // Load Keys  may need this for moving db keys to this type of build
+// const keys = require("./config/keys");
 
 // serve static assets in production
 if (process.env.NODE_ENV === "production") {

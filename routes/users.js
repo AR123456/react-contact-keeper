@@ -7,14 +7,16 @@ const { check, validationResult } = require("express-validator");
 // for welcome email
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
+// Load Keys
+const keys = require("../config/keys");
+
 const User = require("../models/User");
 // TODO hide API key
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     // auth object
     auth: {
-      // api user and key object, all that is really needed is api_key
-      api_key: "#",
+      api_key: keys.api_key,
     },
   })
 );
