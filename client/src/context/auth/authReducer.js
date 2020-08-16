@@ -3,6 +3,8 @@
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  REQUEST_RESET_SUCCESS,
+  REQUEST_RESET_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -38,6 +40,16 @@ export default (state, action) => {
         // this is done so no longer loading
         loading: false,
       };
+    case REQUEST_RESET_SUCCESS:
+      return {
+        // return state to component
+        ...state,
+        // user data from the payload, from the response
+        user: action.payload,
+        // this is done so no longer loading
+        loading: false,
+      };
+    case REQUEST_RESET_FAIL:
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:

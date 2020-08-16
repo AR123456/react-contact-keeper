@@ -98,7 +98,7 @@ router.post(
 // seems like this is a get first , then post
 // this did not work, backing out for now and will work on confrimation email first
 router.post(
-  "/",
+  "/requestReset",
   [check("email", "Please include a valid email").isEmail()],
   async (req, res) => {
     const errors = validationResult(req);

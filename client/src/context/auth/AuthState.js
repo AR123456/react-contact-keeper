@@ -12,6 +12,8 @@ import setAuthToken from "../../utils/setAuthToken";
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  REQUEST_RESET_SUCCESS,
+  REQUEST_RESET_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -88,7 +90,7 @@ const AuthState = (props) => {
         payload: res.data,
       });
       // after successful register loadUser so once we register it should load the user
-      //TODO after password reset load user
+
       loadUser();
     } catch (err) {
       dispatch({
@@ -131,8 +133,46 @@ const AuthState = (props) => {
   };
   //// TODO request reset - will take user email validate it and generate crypto token
   // with expiration, add to user in the db  , sendgrid email
-  const requestReset = () => {
-    console.log("request reset");
+  //TODO after password reset load user
+  //   // register will be called in the onSubmit in the RequestReset.js component.
+  // async , takes in formData to  for resetReqeust
+  const requestReset = async (formData) => {
+    // post request sending data so need content type header of applicaiton/json
+    // to do this in axios need a config object
+    const config = {
+      //  with a headers object
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    // put this in a try  catch because we are making a reuest
+    try {
+      // axios is making reqeust to back end
+      // variable for response res
+      // await on post reqeust which returns a promise
+      //TODO ? think this should be api/auth not user url coming from the proxy value in package.json + "/api/users"
+      // then formData and the config defined above
+      // this is not working does this need to e in backticks ?
+      const res = await axios.post("/api/auth/requestReset", formData, config);
+      // dispatch to reducer
+      dispatch({
+        // the type is going to be register success
+        type: REQUEST_RESET_SUCCESS,
+        // in res.data is the token
+        payload: res.data,
+      });
+      // after successful register loadUser so once we register it should load the user
+      // TODO no user to load yet
+      // loadUser();
+    } catch (err) {
+      dispatch({
+        // if the email is already taken will get register fail
+        type: REQUEST_RESET_FAIL,
+        // by putting msg in payload the error email alaready taken can show on front end
+        payload: err.response.data.msg,
+      });
+    }
+    // console.log("request reset");
   };
 
   //// TODO  set new password - will get the token from the url, match it with the token
@@ -158,6 +198,7 @@ const AuthState = (props) => {
         error: state.error,
         // need to export the register function
         register,
+        // exporing requestReset
         requestReset,
         newPasword,
         loadUser,
