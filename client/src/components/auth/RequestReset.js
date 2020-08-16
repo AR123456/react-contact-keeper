@@ -8,19 +8,24 @@ const RequestReset = (props) => {
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
-  //   const { login, error, clearErrors, isAuthenticated } = authContext;
+  //TODO need to set up the requestRESET in authContext
+  const { requestReset, error, clearErrors, isAuthenticated } = authContext;
+  //TODO  new use effect to check if matching email found show
+  // show in error message that says check email for reset link
+  //TODO may or may not do this here
+  useEffect(() => {
+    // if (isAuthenticated) {
+    //   props.history.push("/");
+    // }
 
-  //   useEffect(() => {
-  //     if (isAuthenticated) {
-  //       props.history.push("/");
-  //     }
-
-  //     if (error === "Invalid Credentials") {
-  //       setAlert(error, "danger");
-  //       clearErrors();
-  //     }
-  //     // eslint-disable-next-line
-  //   }, [error, isAuthenticated, props.history]);
+    if (error === "Invalid Email") {
+      setAlert(error, "danger");
+      clearErrors();
+    }
+    // eslint-disable-next-line
+    // }, [error, isAuthenticated, props.history]);
+    // TODO should only need to run this if there is an error
+  }, [error]);
   // because this is a form  use state to add the component level state
 
   const [user, setUser] = useState({
@@ -42,12 +47,12 @@ const RequestReset = (props) => {
     // call a method to register when form submited.
     if (email === "") {
       setAlert("Please add your email", "danger");
+    } else {
+      //TODO pass requestReset AuthState to context
+      requestReset({
+        email,
+      });
     }
-    // else {
-    //   login({
-    //     email,
-    //   });
-    // }
   };
 
   return (
@@ -72,7 +77,7 @@ const RequestReset = (props) => {
         {/* input with type of submit and value of RequestReset   */}
         <input
           type="submit"
-          value="RequestReset"
+          value="Request Reset"
           className="btn btn-primary btn-block"
         />
       </form>

@@ -20,3 +20,5 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
+//// TODO Auth types for password reset
+// reset request success , reset request fail  new password success  new password fail

@@ -1,3 +1,4 @@
+// TODO handle password reset
 // Auth State /Context to handle all of our authentication
 import React, { useReducer } from "react";
 // calling action in AuthState called register will hit server ,
