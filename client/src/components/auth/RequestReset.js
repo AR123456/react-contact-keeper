@@ -8,23 +8,16 @@ const RequestReset = (props) => {
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
-  //TODO need to set up the requestRESET in authContext
-  const { requestReset, error, clearErrors, isAuthenticated } = authContext;
-  //TODO  new use effect to check if matching email found show
-  // show in error message that says check email for reset link
-  //TODO may or may not do this here
-  useEffect(() => {
-    // if (isAuthenticated) {
-    //   props.history.push("/");
-    // }
 
+  const { requestReset, error, clearErrors } = authContext;
+
+  //TODO this is working
+  useEffect(() => {
     if (error === "Invalid Email") {
       setAlert(error, "danger");
       clearErrors();
     }
     // eslint-disable-next-line
-    // }, [error, isAuthenticated, props.history]);
-    // TODO should only need to run this if there is an error
   }, [error]);
   // because this is a form  use state to add the component level state
 

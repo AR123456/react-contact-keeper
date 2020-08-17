@@ -99,6 +99,7 @@ router.post(
 // this did not work, backing out for now and will work on confrimation email first
 router.post(
   "/requestReset",
+  // "/requestReset",
   [check("email", "Please include a valid email").isEmail()],
   async (req, res) => {
     const errors = validationResult(req);
@@ -108,12 +109,11 @@ router.post(
     const { email } = req.body;
     try {
       let user = await User.findOne({ email });
-
       if (!user) {
-        // TODO  make sure this matches up with error text on front end
+        // this send email is working
         return res.status(400).json({ msg: "Invalid Email" });
       }
-      // TODO should this be
+      // TODO  there is something wrong in this section
       crypto
         .randomBytes(32, (err, buffer) => {
           if (err) {
@@ -126,6 +126,7 @@ router.post(
           user.resetTokenExpiration = Date.now() + 3600000;
           return user.save();
         })
+        //TODO cannot read property of "then" of undifined
         .then((result) => {
           // we have a matching users and have given user token, saved it to the db
           // now send email
