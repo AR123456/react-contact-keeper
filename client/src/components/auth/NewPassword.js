@@ -8,6 +8,12 @@ const NewPassword = (props) => {
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
+  //TODO seems like the use effect could be used to handle sending the token to
+  // back end route to match up the token with what is in db
+  // like matching up to valid email in the RequestReset
+  // put the token into state but
+  // how to get the reset token off of the  URL  to send to back end to do the comparison??
+
   //   const { register, error, clearErrors, isAuthenticated } = authContext;
 
   //   useEffect(() => {
@@ -105,7 +111,7 @@ const NewPassword = (props) => {
         {/* input with type of submit and value of Register  */}
         <input
           type="submit"
-          value="NewPassword"
+          value="New Password"
           className="btn btn-primary btn-block"
         />
       </form>

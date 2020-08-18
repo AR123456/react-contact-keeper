@@ -11,7 +11,7 @@ const RequestReset = (props) => {
 
   const { requestReset, error, clearErrors } = authContext;
 
-  //TODO this is working
+  //TODO
   useEffect(() => {
     if (error === "Invalid Email") {
       setAlert(error, "danger");

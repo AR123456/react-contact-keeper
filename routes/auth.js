@@ -128,7 +128,7 @@ router.post(
           // we have a matching users and have given user token, saved it to the db
           // now send email
           //TODO this redirect is not redirecting , the request reset form is not clearing after submit
-          res.redirect("/");
+          res.redirect("/newPassword");
           // TODO make this a dynamic link for reset
           // send email with link in it
           transporter.sendMail({

@@ -95,5 +95,12 @@ router.post(
     }
   }
 );
-
+/// TODO Route or Routes to handle  getting the reset token off the URL from the front end
+// match it to db , if no match send invalid warning to front and redirect to the requestReset form
+// if there is a match get the password supplied by front end, validate it for password requirements
+// if not throw error and rediredt to the form to pick password.  Remember that the token has been validated
+// so user dosent have to start over.
+// if the password is good update it in the DB, give the user a persistant login and redirect to a page
+// dynamic get /reset/{token}
+// need in state userId ?  for sure token
 module.exports = router;
