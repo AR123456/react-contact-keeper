@@ -114,35 +114,34 @@ router.post(
         return res.status(400).json({ msg: "Invalid Email" });
       }
       // TODO  there is something wrong in this section
-      crypto
-        .randomBytes(32, (err, buffer) => {
-          if (err) {
-            console.log(err);
-            // TODO  redirect to requestReset
-            // return res.redirect("/requestReset");
-          }
-          const token = buffer.toString("hex");
-          user.resetToken = token;
-          user.resetTokenExpiration = Date.now() + 3600000;
-          return user.save();
-        })
-        //TODO cannot read property of "then" of undifined
-        .then((result) => {
+      crypto.randomBytes(32, (err, buffer) => {
+        if (err) {
+          console.log(err);
+          // TODO  redirect to requestReset
+          return res.redirect("/requestReset");
+        }
+        // this is creating the resetToken and date
+        const token = buffer.toString("hex");
+        user.resetToken = token;
+        user.resetTokenExpiration = Date.now() + 3600000;
+        return user.save().then((result) => {
           // we have a matching users and have given user token, saved it to the db
           // now send email
-          //TODO decide about the redirect
-          // res.redirect("/");
+          //TODO this redirect is not redirecting , the request reset form is not clearing after submit
+          res.redirect("/");
           // TODO make this a dynamic link for reset
+          // send email with link in it
           transporter.sendMail({
             to: email,
             from: "contact@node-complete.com",
             subject: "Reset password has been requested ",
             html: `
-            <p>You requested a password reset</p>
-            <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</p>
-          `,
+          <p>You requested a password reset</p>
+          <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</p>
+        `,
           });
         });
+      });
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");
