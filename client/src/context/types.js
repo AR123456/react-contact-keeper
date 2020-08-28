@@ -24,3 +24,5 @@ export const LOGOUT = "LOGOUT";
 // reset request success , reset request fail  new password success  new password fail
 export const REQUEST_RESET_SUCCESS = "REQUEST_RESET_SUCCESS";
 export const REQUEST_RESET_FAIL = "REQUEST_RESET_FAIL";
+export const RESET_TOKEN_SUCCESS = "RESET_TOKEN_SUCCESS";
+export const RESET_TOKEN_FAIL = "RESET_TOKEN_FAIL";

@@ -14,6 +14,8 @@ import {
   REGISTER_FAIL,
   REQUEST_RESET_SUCCESS,
   REQUEST_RESET_FAIL,
+  RESET_TOKEN_SUCCESS,
+  RESET_TOKEN_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -150,36 +152,82 @@ const AuthState = (props) => {
       // axios is making reqeust to back end
       // variable for response res
       // await on post reqeust which returns a promise
-      //TODO ? think this should be api/auth not user url coming from the proxy value in package.json + "/api/users"
-      // then formData and the config defined above
-      // this is not working does this need to e in backticks ?
       const res = await axios.post("/api/auth/requestReset", formData, config);
       // dispatch to reducer
       dispatch({
-        // the type is going to be register success
+        // the type is reset worked
         type: REQUEST_RESET_SUCCESS,
         // in res.data is the token
         payload: res.data,
       });
+      // TODO do something here to send message to look in email and clear the form
       // after successful register loadUser so once we register it should load the user
-      // TODO no user to load yet
-      // loadUser();
     } catch (err) {
       dispatch({
-        // if the email is already taken will get register fail
+        // if the email is not found
         type: REQUEST_RESET_FAIL,
-        // by putting msg in payload the error email alaready taken can show on front end
+        // by putting msg in payload the error email not found can show on front end
         payload: err.response.data.msg,
       });
     }
-    // console.log("request reset");
   };
 
-  //// TODO  set new password - will get the token from the url, match it with the token
-  // in the db, allow for new password, update the db , log in user and set local storage with logged in token
-  const newPasword = () => {
-    console.log("new Password ");
+  //// TODO   get the token from the url, match it with the token
+  // TODO is this form data ?
+  //TODO
+  const getResetToken = async (formData) => {
+    // TODO
+    // get the token from the url
+    // match it up with token in db
+    //post to auth or user route where we then show the new password page
+    //need the form data from the page to set the new password in the database
+    const config = {
+      //  with a headers object
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      // is this a post or get seems like should be get from reset/:token
+      const res = await axios.get("/reset/:token", formData, config);
+      dispatch({
+        // the type is going to be  ???? rest token success ?
+        // RESET_TOKEN_SUCCESS
+        type: RESET_TOKEN_SUCCESS,
+        // in res.data is the token
+        payload: res.data,
+      });
+      //in the db, allow for new password, update the db , log in user and set local storage with logged in token
+      // after getting the token  run some code to present the new password form, the data from it ,
+      // then do all the stuff to encript it and load user
+      newPassword();
+    } catch (err) {
+      dispatch({
+        // if token not found, times out not valid..  fail
+        // TODO RESET_TOKEN_FAIL
+        type: RESET_TOKEN_FAIL,
+        // by putting msg in payload the error will show on front end
+        payload: err.response.data.msg,
+      });
+    }
   };
+  const newPassword = async (formData) => {
+    // post request sending data so need content type header of applicaiton/json
+    // to do this in axios need a config object
+    const config = {
+      //  with a headers object
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      //
+    } catch (err) {
+      //
+    }
+    loadUser();
+  };
+
   // Logout - will destroy the token and clean up
   // dispatch the logout type to authReducer
   const logout = () => dispatch({ type: LOGOUT });
@@ -205,6 +253,7 @@ const AuthState = (props) => {
         login,
         logout,
         clearErrors,
+        getResetToken,
       }}
     >
       {props.children}
