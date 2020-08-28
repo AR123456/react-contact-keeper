@@ -8,7 +8,7 @@ import Register from "./components/auth/Register";
 // bring in Login from the auth components
 import Login from "./components/auth/Login";
 import RequestReset from "./components/auth/RequestReset";
-import NewPassword from "./components/auth/NewPassword";
+import Reset from "./components/auth/Reset";
 // making use of Alerts
 import Alerts from "./components/layout/Alerts";
 // to make the home page a private route
@@ -46,7 +46,7 @@ const App = () => {
                   {/* add login to routes  */}
                   <Route exact path="/login" component={Login} />
                   <Route exact path="/requestReset" component={RequestReset} />
-                  <Route exact path="/newPassword" component={NewPassword} />
+                  <Route exact path="/reset" component={Reset} />
                 </Switch>
               </div>
             </Fragment>

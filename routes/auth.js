@@ -94,10 +94,7 @@ router.post(
 // @route     POST  api/auth/requestReset
 // @desc      Allow user to request a password reset verify email
 // @access    Public
-// post reset
-// TODO get the request from front end, if email in the DB generate a re set token
-// seems like this is a get first , then post
-// this did not work, backing out for now and will work on confrimation email first
+// TODO this is working to send email with link and link back to reset works
 router.post(
   "/requestReset",
   // "/requestReset",
@@ -114,23 +111,22 @@ router.post(
         // this send email is working
         return res.status(400).json({ msg: "Invalid Email" });
       }
-      // TODO  there is something wrong in this section
+      // TODO flash a message to direct to email will time out in 10 min
       crypto.randomBytes(32, (err, buffer) => {
         if (err) {
           console.log(err);
-          // TODO  redirect to requestReset
+
           return res.redirect("/requestReset");
         }
-        // this is creating the resetToken and date
+        //  creating the resetToken and date
         const token = buffer.toString("hex");
         user.resetToken = token;
         user.resetTokenExpiration = Date.now() + 3600000;
         return user.save().then((result) => {
           // we have a matching users and have given user token, saved it to the db
           // now send email
-          // TODO the email is sending and the DB is saving the token
           //TODO this redirect is not redirecting , the request reset form is not clearing after submit
-          res.redirect("/");
+          res.redirect("/reset");
 
           // send email with link in it
           transporter.sendMail({
@@ -150,32 +146,21 @@ router.post(
     }
   }
 );
-
-// // @route     GET newPassword
-// @desc      Get the reset token after user clicks on email
-// /reset/:token
-// @access    Private
-//TODO this appears to be doing nothing  ////////////
 router.get("/reset/:token", async (req, res) => {
   try {
     const token = req.params.token;
+
     const user = await User.findOne({
       resetToken: token,
       resetTokenExpiration: { $gt: Date.now() },
     });
-
+    //TODO now on the front end take this user object and show the reset page
     res.json(user);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
 });
-
-// @route  Post api/auth
-// @desce  Give user a new password
-//@access  Private
-// TODO match user to reset token from url, allow new password to be created , save to db
-// loguser in with the persistent login
-// what is happeingin on the front end in AuthState
-
+// TODO  Now that front end has taken care of showing the reset page and we have the user object in state
+// get the new password from the form and post to db
 module.exports = router;
