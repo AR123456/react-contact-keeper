@@ -174,7 +174,7 @@ router.get("/reset/:token", async (req, res) => {
 // @route  Post api/auth
 // @desce  Give user a new password
 //@access  Private
-// match user to reset token from url, allow new password to be created , save to db
+// TODO match user to reset token from url, allow new password to be created , save to db
 // loguser in with the persistent login
 // what is happeingin on the front end in AuthState
 

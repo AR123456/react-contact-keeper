@@ -200,7 +200,6 @@ const AuthState = (props) => {
       //in the db, allow for new password, update the db , log in user and set local storage with logged in token
       // after getting the token  run some code to present the new password form, the data from it ,
       // then do all the stuff to encript it and load user
-      newPassword();
     } catch (err) {
       dispatch({
         // if token not found, times out not valid..  fail
@@ -221,11 +220,25 @@ const AuthState = (props) => {
       },
     };
     try {
-      //
+      // TODO trying reset instead of newPassword.  Saw when I changed cloud atlas
+      const res = await axios.post("/newPassword", formData, config);
+      dispatch({
+        // the type is going to be  ????
+        // newPassword success
+        type: RESET_TOKEN_SUCCESS,
+        // in res.data is the token
+        payload: res.data,
+      });
+      loadUser();
     } catch (err) {
-      //
+      dispatch({
+        // if the   get   fail
+        // newpassword fail
+        type: REGISTER_FAIL,
+        // by putting msg in payload the error email alaready taken can show on front end
+        payload: err.response.data.msg,
+      });
     }
-    loadUser();
   };
 
   // Logout - will destroy the token and clean up
@@ -248,7 +261,7 @@ const AuthState = (props) => {
         register,
         // exporing requestReset
         requestReset,
-        newPasword,
+        newPassword,
         loadUser,
         login,
         logout,
