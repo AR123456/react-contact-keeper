@@ -25,6 +25,7 @@
 #     "password":"mypassword"
 # }
 
-POST http://localhost:3000/requestReset
+GET http://localhost:3000/reset/
 Content-Type: application/json
+token: 8b2bcdf1d8181746c7c7c843051496228437ae8bd5a62f7e223d1ede239bac13
 

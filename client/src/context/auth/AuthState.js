@@ -195,7 +195,7 @@ const AuthState = (props) => {
       // await on post reqeust which returns a promise
       // url coming from the proxy value in package.json + "/api/users"
       // then formData and the config defined above
-      //TODO should this be api/auth/reset
+      //TODO should this be api/auth/reset ? try a get vs post
       const res = await axios.post("/api/auth/reset", formData, config);
       // dispatch to reducer
       dispatch({
