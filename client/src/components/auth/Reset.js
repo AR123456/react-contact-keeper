@@ -1,11 +1,14 @@
 // need to bring this component into App.js to see it
 import React, { useState, useContext, useEffect } from "react";
+
 import AlertContext from "../../context/alert/alertContext";
 import AuthContext from "../../context/auth/authContext";
 
 const Reset = (props) => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
+  //TODO
+  const { register } = authContext;
 
   const { setAlert } = alertContext;
   //TODO seems like the use effect could be used to handle sending the token to
@@ -13,7 +16,7 @@ const Reset = (props) => {
   // like matching up to valid email in the RequestReset
   // put the token into state but
   // how to get the reset token off of the  URL  to send to back end to do the comparison??
-
+  //TODO in auth context make reset
   //   const { register, error, clearErrors, isAuthenticated } = authContext;
 
   //   useEffect(() => {
@@ -30,7 +33,6 @@ const Reset = (props) => {
   // because this is a form  use state to add the component level state
   const [user, setUser] = useState({
     // send in object that is state
-
     password: "",
     password2: "",
   });
@@ -51,12 +53,13 @@ const Reset = (props) => {
       setAlert("Please enter all fields", "danger");
     } else if (password !== password2) {
       setAlert("Passwords do not match", "danger");
+    } else {
+      //  TODO  this should be a method called reset , make this
+      // in the context
+      register({
+        password,
+      });
     }
-    //  else {
-    //   register({
-    //      password,
-    //   });
-    // }
   };
   return (
     // class is form-container which is a more narrow form
