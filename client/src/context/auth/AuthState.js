@@ -14,6 +14,8 @@ import {
   REGISTER_FAIL,
   REQUEST_RESET_SUCCESS,
   REQUEST_RESET_FAIL,
+  RESET_SUCCESS,
+  RESET_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -177,8 +179,43 @@ const AuthState = (props) => {
 
   //// TODO  set new password - will get the token from the url, match it with the token
   // in the db, allow for new password, update the db , log in user and set local storage with logged in token
-  const newPasword = () => {
-    console.log("new Password ");
+  const reset = async (formData) => {
+    // post request sending data so need content type header of applicaiton/json
+    // to do this in axios need a config object
+    const config = {
+      //  with a headers object
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    // put this in a try  catch because we are making a reuest
+    try {
+      // axios is making reqeust to back end
+      // variable for response res
+      // await on post reqeust which returns a promise
+      // url coming from the proxy value in package.json + "/api/users"
+      // then formData and the config defined above
+      //TODO should this be api/auth/reset
+      const res = await axios.post("/api/auth/reset", formData, config);
+      // dispatch to reducer
+      dispatch({
+        // the type is going to be reset success
+        type: RESET_SUCCESS,
+        // in res.data is the token
+        payload: res.data,
+      });
+      // after successful reset loadUser so once we reset it should load the user
+
+      loadUser();
+    } catch (err) {
+      dispatch({
+        // if the email is already taken will get register fail
+        type: RESET_FAIL,
+        // by putting msg in payload the error email alaready taken can show on front end
+        payload: err.response.data.msg,
+      });
+    }
+    // console.log("reset the password ");
   };
   // Logout - will destroy the token and clean up
   // dispatch the logout type to authReducer
@@ -200,7 +237,7 @@ const AuthState = (props) => {
         register,
         // exporing requestReset
         requestReset,
-        newPasword,
+        reset,
         loadUser,
         login,
         logout,

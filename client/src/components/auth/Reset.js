@@ -8,7 +8,7 @@ const Reset = (props) => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
   //TODO
-  const { register } = authContext;
+  const { reset } = authContext;
 
   const { setAlert } = alertContext;
   //TODO seems like the use effect could be used to handle sending the token to
@@ -56,7 +56,7 @@ const Reset = (props) => {
     } else {
       //  TODO  this should be a method called reset , make this
       // in the context
-      register({
+      reset({
         password,
       });
     }

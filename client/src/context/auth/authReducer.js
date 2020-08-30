@@ -5,6 +5,8 @@ import {
   REGISTER_FAIL,
   REQUEST_RESET_SUCCESS,
   REQUEST_RESET_FAIL,
+  RESET_SUCCESS,
+  RESET_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -49,6 +51,13 @@ export default (state, action) => {
         // this is done so no longer loading
         loading: false,
       };
+    case RESET_SUCCESS:
+      return {
+        ...state,
+        resetToken: null,
+        resetTokenExpiration: null,
+      };
+    case RESET_FAIL:
     case REQUEST_RESET_FAIL:
     case REGISTER_FAIL:
     case AUTH_ERROR:
@@ -70,6 +79,7 @@ export default (state, action) => {
         // error is in the payload (back in action if we fail the payload includes the error message )
         error: action.payload,
       };
+
     // CLEAR_ERRORS coming from AuthState
     case CLEAR_ERRORS:
       // return the state object
