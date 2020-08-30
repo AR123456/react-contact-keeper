@@ -5,8 +5,6 @@ import {
   REGISTER_FAIL,
   REQUEST_RESET_SUCCESS,
   REQUEST_RESET_FAIL,
-  RESET_TOKEN_SUCCESS,
-  RESET_TOKEN_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -42,7 +40,6 @@ export default (state, action) => {
         // this is done so no longer loading
         loading: false,
       };
-    case RESET_TOKEN_SUCCESS:
     case REQUEST_RESET_SUCCESS:
       return {
         // return state to component
@@ -52,7 +49,6 @@ export default (state, action) => {
         // this is done so no longer loading
         loading: false,
       };
-    case RESET_TOKEN_FAIL:
     case REQUEST_RESET_FAIL:
     case REGISTER_FAIL:
     case AUTH_ERROR:

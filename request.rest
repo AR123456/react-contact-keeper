@@ -1,0 +1,30 @@
+
+
+//sign up route or 
+# POST http://localhost:3000/signup
+# Content-Type: application/json
+
+# {
+#     "email":"test@test.com",
+#     "password":"mypassword"
+# }
+
+
+# // the token 
+
+# GET http://localhost:3000
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjRhYTA2NzMyNWI0YTU0Yjg3Y2M4NDIiLCJpYXQiOjE1OTg3MjYyNDh9.Nab5UUhEOUSaM5dOYF649YqMHdnNCYUx3IcYtezhBj0
+
+// the post reqeust to signin after salt and hash of password
+# POST http://localhost:3000/signin
+# Content-Type: application/json
+
+
+# {
+#     "email":"test@test.com",
+#     "password":"mypassword"
+# }
+
+POST http://localhost:3000/requestReset
+Content-Type: application/json
+

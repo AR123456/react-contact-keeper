@@ -14,8 +14,6 @@ import {
   REGISTER_FAIL,
   REQUEST_RESET_SUCCESS,
   REQUEST_RESET_FAIL,
-  RESET_TOKEN_SUCCESS,
-  RESET_TOKEN_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -176,27 +174,10 @@ const AuthState = (props) => {
     }
     // console.log("request reset");
   };
-  // TODO recive the user object with reset token from the get /reset/:token route
-  // TODO this appears to be doing nothing
-  const getResetToken = async () => {
-    try {
-      const res = await axios.get("/api/auth/reset/:token");
-      dispatch({
-        type: RESET_TOKEN_SUCCESS,
-        payload: res.data,
-      });
-    } catch (err) {
-      dispatch({
-        type: RESET_TOKEN_FAIL,
-        payload: err.response.msg,
-      });
-    }
-  };
 
   //// TODO  set new password - will get the token from the url, match it with the token
   // in the db, allow for new password, update the db , log in user and set local storage with logged in token
-  const reset = () => {
-    getResetToken();
+  const newPasword = () => {
     console.log("new Password ");
   };
   // Logout - will destroy the token and clean up
@@ -219,12 +200,11 @@ const AuthState = (props) => {
         register,
         // exporing requestReset
         requestReset,
-        reset,
+        newPasword,
         loadUser,
         login,
         logout,
         clearErrors,
-        getResetToken,
       }}
     >
       {props.children}
