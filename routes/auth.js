@@ -152,6 +152,7 @@ router.post(
 // @desc      Get the token
 // @access    Private- need the token
 // front end needs to get the token  then send it back with the new password.
+// router.get("/reset/:token", async (req, res) => {
 router.get("/reset/:token", async (req, res) => {
   try {
     const token = req.params.token;
@@ -165,7 +166,7 @@ router.get("/reset/:token", async (req, res) => {
     // or is this
     // res.render("/reset", token);
     // res.json(user);
-    res.send(token);
+    res.send(token, user);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -174,14 +175,15 @@ router.get("/reset/:token", async (req, res) => {
 // @route     POST  /reset
 // @desc      present reset page where user adds new PW
 // @access    Private
+// router.post("/reset/:token", async (req, res) => {
 router.post("/reset/:token", async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
   //find the user
-  // const token = req.params.token;
-  const { token } = req.body;
+  const token = req.params.token;
+  // const { token } = req.body;
 
   try {
     let user = await User.findOne({
