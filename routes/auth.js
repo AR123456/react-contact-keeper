@@ -151,6 +151,7 @@ router.post(
 // @route     GET
 // @desc      Get the token
 // @access    Private- need the token
+// front end needs to get the token  then send it back with the new password.
 router.get("/reset/:token", async (req, res) => {
   try {
     const token = req.params.token;
@@ -162,8 +163,9 @@ router.get("/reset/:token", async (req, res) => {
       return res.status(400).json({ msg: "There was a problem" });
     }
     // or is this
-    res.render("/reset", token);
+    // res.render("/reset", token);
     // res.json(user);
+    res.send(token);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

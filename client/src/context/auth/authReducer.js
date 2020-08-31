@@ -5,6 +5,8 @@ import {
   REGISTER_FAIL,
   REQUEST_RESET_SUCCESS,
   REQUEST_RESET_FAIL,
+  GET_RESET,
+  GET_RESET_ERROR,
   RESET_SUCCESS,
   RESET_FAIL,
   USER_LOADED,
@@ -54,9 +56,15 @@ export default (state, action) => {
     case RESET_SUCCESS:
       return {
         ...state,
-        resetToken: null,
-        resetTokenExpiration: null,
+        // TODO need to remove from DB at some point
+        // resetToken: null,
+        // resetTokenExpiration: null,
       };
+    case GET_RESET:
+      return {
+        ...state,
+      };
+    case GET_RESET_ERROR:
     case RESET_FAIL:
     case REQUEST_RESET_FAIL:
     case REGISTER_FAIL:

@@ -16,6 +16,8 @@ import {
   REQUEST_RESET_FAIL,
   RESET_SUCCESS,
   RESET_FAIL,
+  GET_RESET,
+  GET_RESET_ERROR,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -176,7 +178,22 @@ const AuthState = (props) => {
     }
     // console.log("request reset");
   };
-
+  //  To get the Reset token from the url
+  const getReset = async () => {
+    try {
+      const res = await axios.get("/api/auth/reset/:token");
+      dispatch({
+        type: GET_RESET,
+        payload: res.data,
+      });
+      console.log(res);
+    } catch (err) {
+      dispatch({
+        type: GET_RESET_ERROR,
+        payload: err.response.msg,
+      });
+    }
+  };
   //// TODO  set new password - will get the token from the url, match it with the token
   // in the db, allow for new password, update the db , log in user and set local storage with logged in token
   const reset = async (formData) => {
@@ -238,6 +255,7 @@ const AuthState = (props) => {
         // exporing requestReset
         requestReset,
         reset,
+        getReset,
         loadUser,
         login,
         logout,
