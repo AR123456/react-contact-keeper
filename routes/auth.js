@@ -139,7 +139,7 @@ router.post(
             subject: "Reset password has been requested ",
             html: `
           <p>You requested a password reset</p>
-          <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</p>
+          <p>Click this <a href="http://localhost:3000/api/auth/reset/${token}">link</a> to set a new password.</p>
         `,
           });
         });
@@ -150,54 +150,103 @@ router.post(
     }
   }
 );
+// @route     GET
+// @desc      Get the token
+// @access    Private- need the token
+// router.get("/reset/:token", auth, async (req, res) => {
+//   try {
+//     const token = req.params.token;
+//     const user = await User.findOne({
+//       resetToken: token,
+//       resetTokenExpiration: { $gt: Date.now() },
+//     });
+//     // or is this res.render("/reset", user.token)
+//     res.json(user);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Server Error");
+//   }
+// });
 // @route     PUT  /reset
 // @desc    reset page where user adds new PW
 // @access    Private
-//TODO check this route url
-router.put("/auth/reset/:token", async (req, res) => {
-  ///// this is part of the error checking, not sure  if this is the place
-  ///check to make sure that the passwords entered in the form match one anohter
-  // const errors = validationResult(req);
-  // if (!errors.isEmpty()) {
-  //   return res.status(400).json({ errors: errors.array() });
-  // }
-  const { password, token } = req.body;
-  //find the user
-  try {
-    const user = await User.findOne({
-      resetToken: token,
-      resetTokenExpiration: { $gt: Date.now() },
-    });
-    if (!user) {
-      return res.status(404).json({ msg: "something is up with the token" });
-    }
-
-    // do all the salt and bcrpt work
-    const salt = await bcrypt.genSalt(10);
-
-    user.password = await bcrypt.hash(password, salt);
-    user.resetToken = undefined;
-    user.resetTokenExpiration = undefined;
-    await user.save();
-    // add a jwt
-    jwt.sign(
-      payload,
-      config.get("jwtSecret"),
-      {
-        expiresIn: 360000,
-      },
-      (err, token) => {
-        if (err) throw err;
-        //  this jwt to persist log in is being sent to the front end
-        // recived in the AuthState.js component
-        res.json({ token });
+router.put(
+  "/reset/:token",
+  // do some checking/ valiation but not sure if it belongs here
+  // [
+  //   check(
+  //     "password",
+  //     "Please enter a password with 6 or more characters"
+  //   ).isLength({ min: 6 }),
+  // ],
+  async (req, res) => {
+    ///// this is part of the error checking, not sure  if this is the place
+    ///check to make sure that the passwords entered in the form match one anohter
+    // const errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //   return res.status(400).json({ errors: errors.array() });
+    // }
+    const { password } = req.body;
+    const { token } = req.params;
+    // this console.log is showing the token when I do the put from postman
+    console.log(token);
+    //this console.log is showing the password when I do the put from postman
+    console.log(password);
+    //find the user
+    try {
+      const user = await User.findOne({
+        resetToken: token,
+        resetTokenExpiration: { $gt: Date.now() },
+      });
+      if (!user) {
+        return res.status(404).json({ msg: "something is up with the token" });
       }
-    );
-    // TODO use transporter to send an email confirming password hanged
-    /// redirect to the home page
-  } catch (error) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
+
+      // do all the salt and bcrpt work
+      const salt = await bcrypt.genSalt(10);
+      // salt and hash the new password
+      user.password = await bcrypt.hash(password, salt);
+
+      user.resetToken = "undefined";
+      user.resetTokenExpiration = "undefined";
+
+      await user.save();
+
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
+      // add a jwt
+
+      jwt.sign(
+        payload,
+        config.get("jwtSecret"),
+        {
+          expiresIn: 360000,
+        },
+        (err, token) => {
+          if (err) throw err;
+          //  this jwt to persist log in is being sent to the front end
+          // recived in the AuthState.js component
+          res.json({ token });
+        }
+      );
+      // use transporter to send an email confirming password hanged
+
+      // after registration is complete sent Welcome email
+      // js object we want to send email too
+      // transporter.sendMail({
+      //   to: email,
+      //   from: "contact@node-complete.com",
+      //   subject: "Your password has been changed",
+      //   html: "<h1>The Password on your account has been changed.</h1>",
+      // });
+      /// redirect to the home page
+    } catch (error) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
   }
-});
+);
 module.exports = router;
