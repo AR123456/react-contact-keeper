@@ -5,8 +5,6 @@ import {
   REGISTER_FAIL,
   REQUEST_RESET_SUCCESS,
   REQUEST_RESET_FAIL,
-  GET_RESET,
-  GET_RESET_ERROR,
   RESET_SUCCESS,
   RESET_FAIL,
   USER_LOADED,
@@ -44,6 +42,7 @@ export default (state, action) => {
         // this is done so no longer loading
         loading: false,
       };
+    case RESET_SUCCESS:
     case REQUEST_RESET_SUCCESS:
       return {
         // return state to component
@@ -53,18 +52,6 @@ export default (state, action) => {
         // this is done so no longer loading
         loading: false,
       };
-    case RESET_SUCCESS:
-      return {
-        ...state,
-        // TODO need to remove from DB at some point
-        // resetToken: null,
-        // resetTokenExpiration: null,
-      };
-    case GET_RESET:
-      return {
-        ...state,
-      };
-    case GET_RESET_ERROR:
     case RESET_FAIL:
     case REQUEST_RESET_FAIL:
     case REGISTER_FAIL:
@@ -87,7 +74,6 @@ export default (state, action) => {
         // error is in the payload (back in action if we fail the payload includes the error message )
         error: action.payload,
       };
-
     // CLEAR_ERRORS coming from AuthState
     case CLEAR_ERRORS:
       // return the state object

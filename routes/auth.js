@@ -122,8 +122,10 @@ router.post(
         }
         // this is creating the resetToken and date
         const token = buffer.toString("hex");
+        // check out also using createHash to also hast
         user.resetToken = token;
-        user.resetTokenExpiration = Date.now() + 3600000;
+        // ten minutes
+        user.resetTokenExpiration = Date.now() + 10 * 60 * 1000;
         return user.save().then((result) => {
           // we have a matching users and have given user token, saved it to the db
           // now send email
@@ -148,73 +150,36 @@ router.post(
     }
   }
 );
-// @route     GET
-// @desc      Get the token
-// @access    Private- need the token
-// front end needs to get the token  then send it back with the new password.
-// router.get("/reset/:token", async (req, res) => {
-router.get("/reset/:token", async (req, res) => {
-  try {
-    const token = req.params.token;
-    const user = await User.findOne({
-      resetToken: token,
-      resetTokenExpiration: { $gt: Date.now() },
-    });
-    if (!user) {
-      return res.status(400).json({ msg: "There was a problem" });
-    }
-    // or is this
-    // res.render("/reset", token);
-    // res.json(user);
-    res.send(token, user);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
-// @route     POST  /reset
-// @desc      present reset page where user adds new PW
+// @route     PUT  /reset
+// @desc    reset page where user adds new PW
 // @access    Private
-// router.post("/reset/:token", async (req, res) => {
-router.post("/reset/:token", async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
+//TODO check this route url
+router.put("/auth/reset/:token", async (req, res) => {
+  ///// this is part of the error checking, not sure  if this is the place
+  ///check to make sure that the passwords entered in the form match one anohter
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   return res.status(400).json({ errors: errors.array() });
+  // }
+  const { password, token } = req.body;
   //find the user
-  const token = req.params.token;
-  // const { token } = req.body;
-
   try {
-    let user = await User.findOne({
+    const user = await User.findOne({
       resetToken: token,
       resetTokenExpiration: { $gt: Date.now() },
     });
     if (!user) {
       return res.status(404).json({ msg: "something is up with the token" });
     }
-    if (!password) {
-      return res.status(404).json({ msg: "something is up with the password" });
-    }
-    // set the new pass word as the password
-    // is this the syntax to update the users password
-    user = new User({
-      password,
-    });
+
     // do all the salt and bcrpt work
     const salt = await bcrypt.genSalt(10);
 
     user.password = await bcrypt.hash(password, salt);
-
+    user.resetToken = undefined;
+    user.resetTokenExpiration = undefined;
     await user.save();
-
-    const payload = {
-      user: {
-        id: user.id,
-      },
-    };
     // add a jwt
-
     jwt.sign(
       payload,
       config.get("jwtSecret"),
@@ -228,16 +193,7 @@ router.post("/reset/:token", async (req, res) => {
         res.json({ token });
       }
     );
-    // use transporter to send an email confirming password hanged
-
-    // after registration is complete sent Welcome email
-    // js object we want to send email too
-    transporter.sendMail({
-      to: email,
-      from: "contact@node-complete.com",
-      subject: "Your password has been changed",
-      html: "<h1>The Password on your account has been changed.</h1>",
-    });
+    // TODO use transporter to send an email confirming password hanged
     /// redirect to the home page
   } catch (error) {
     console.error(err.message);

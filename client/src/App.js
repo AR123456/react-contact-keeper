@@ -46,7 +46,7 @@ const App = () => {
                   {/* add login to routes  */}
                   <Route exact path="/login" component={Login} />
                   <Route exact path="/requestReset" component={RequestReset} />
-                  <Route exact path="/reset/:token" component={Reset} />
+                  <Route exact path="/reset" component={Reset} />
                 </Switch>
               </div>
             </Fragment>
