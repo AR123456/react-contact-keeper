@@ -150,23 +150,7 @@ router.post(
     }
   }
 );
-// @route     GET
-// @desc      Get the token
-// @access    Private- need the token
-// router.get("/reset/:token", auth, async (req, res) => {
-//   try {
-//     const token = req.params.token;
-//     const user = await User.findOne({
-//       resetToken: token,
-//       resetTokenExpiration: { $gt: Date.now() },
-//     });
-//     // or is this res.render("/reset", user.token)
-//     res.json(user);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
+
 // @route     PUT  /reset
 // @desc    reset page where user adds new PW
 // @access    Private
