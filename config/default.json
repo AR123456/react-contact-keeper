@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mjority",
+  "mongoURI": "m",
   "jwtSecret": "secret"
 }
