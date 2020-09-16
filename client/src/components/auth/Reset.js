@@ -2,7 +2,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import AlertContext from "../../context/alert/alertContext";
 import AuthContext from "../../context/auth/authContext";
-
+// just trying to put axios call on the front end
+import axios from "axios";
 const Reset = (props) => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
@@ -32,6 +33,7 @@ const Reset = (props) => {
   });
   // destructuring so that we can use as variables
   const { password, password2 } = user;
+  // const token = props.match.params.token;
   // wireing up the onChange in the input's in the form groups
   // take in the event, setUser object , need current values so use ... the spread operator
   // using the name attributes on the inputs and set the value to what is in the value attribute
@@ -48,9 +50,21 @@ const Reset = (props) => {
     } else if (password !== password2) {
       setAlert("Passwords do not match", "danger");
     } else {
-      reset({
+      const body = {
         password,
+        id: props.match.params.id,
+      };
+      axios({
+        url: "/reset/:token",
+        data: body,
+        method: "put",
+      }).then(() => {
+        props.history.push("/");
       });
+      // reset({
+      //   password,
+      //   token,
+      // });
     }
   };
   return (
