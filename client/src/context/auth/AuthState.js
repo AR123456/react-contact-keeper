@@ -182,20 +182,13 @@ const AuthState = (props) => {
   //put request wiht matching put request in auth routes
   const reset = async (token, password) => {
     // console.log("new Password ");
-
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
     try {
-      const res = await axios.put(
-        `/api/auth/reset/${token}`,
-
-        token,
-        password,
-        config
-      );
+      const res = await axios.put(`/api/auth/reset/${token}`, token, config);
 
       dispatch({
         type: RESET_SUCCESS,
@@ -207,7 +200,6 @@ const AuthState = (props) => {
         payload: err.response.msg,
       });
     }
-    // token is in props.match.params.token  but I cannot console.log it 
     // try {
     //   const res = await axios.put("/api/auth/reset/", formData, config);
 

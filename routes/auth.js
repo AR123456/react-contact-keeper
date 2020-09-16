@@ -94,12 +94,9 @@ router.post(
 // @route     POST  api/auth/requestReset
 // @desc      Allow user to request a password reset verify email
 // @access    Public
-// TODO get the request from front end, if email in the DB generate a re set token
-// seems like this is a get first , then post
-// this did not work, backing out for now and will work on confrimation email first
+
 router.post(
   "/requestReset",
-  // "/requestReset",
   [check("email", "Please include a valid email").isEmail()],
   async (req, res) => {
     const errors = validationResult(req);
@@ -113,16 +110,14 @@ router.post(
         // this send email is working
         return res.status(400).json({ msg: "Invalid Email" });
       }
-      // TODO  there is something wrong in this section
       crypto.randomBytes(32, (err, buffer) => {
         if (err) {
           console.log(err);
-          // TODO  redirect to requestReset
           return res.redirect("/requestReset");
         }
         // this is creating the resetToken and date
         const token = buffer.toString("hex");
-        // check out also using createHash to also hast
+        // TODO check out hash as well
         user.resetToken = token;
         // ten minutes
         user.resetTokenExpiration = Date.now() + 10 * 60 * 1000;
@@ -131,7 +126,6 @@ router.post(
           // now send email
           //TODO this redirect is not redirecting , the request reset form is not clearing after submit
           res.redirect("/reset");
-          // TODO make this a dynamic link for reset
           // send email with link in it
           transporter.sendMail({
             to: email,
@@ -153,7 +147,7 @@ router.post(
 
 // @route     PUT  /reset
 // @desc    reset page where user adds new PW
-// @access    Private
+// @access    Public
 router.put(
   "/reset/:token",
   // do some checking/ valiation
@@ -185,24 +179,20 @@ router.put(
       if (!user) {
         return res.status(404).json({ msg: "something is up with the token" });
       }
-
       // do all the salt and bcrpt work
       const salt = await bcrypt.genSalt(10);
       // salt and hash the new password
       user.password = await bcrypt.hash(password, salt);
-
+      //TODO when all of this is working add logic to clear out token and expiration
       // user.resetToken = "undefined";
       // user.resetTokenExpiration = "undefined";
-
       await user.save();
-
       const payload = {
         user: {
           id: user.id,
         },
       };
       // add a jwt
-
       jwt.sign(
         payload,
         config.get("jwtSecret"),
@@ -216,7 +206,7 @@ router.put(
           res.json({ token });
         }
       );
-      // use transporter to send an email confirming password hanged
+      // TODO use transporter to send an email confirming password changed
 
       // after registration is complete sent Welcome email
       // js object we want to send email too
