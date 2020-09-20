@@ -1,4 +1,4 @@
 {
-  "mongoURI": "",
+  "mongoURI": "ty",
   "jwtSecret": "secret"
 }
