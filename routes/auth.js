@@ -150,43 +150,32 @@ router.post(
     }
   }
 );
-// @route     GET
-// @desc      Get the token
-// @access    Private- need the token
-// router.get("/reset/:token", auth, async (req, res) => {
-//   try {
-//     const token = req.params.token;
-//     const user = await User.findOne({
-//       resetToken: token,
-//       resetTokenExpiration: { $gt: Date.now() },
-//     });
-//     // or is this res.render("/reset", user.token)
-//     res.json(user);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
+
 // @route     PUT  /reset
 // @desc    reset page where user adds new PW
 // @access    Private
 router.put(
   "/reset/:token",
-  // do some checking/ valiation but not sure if it belongs here
-  // [
-  //   check(
-  //     "password",
-  //     "Please enter a password with 6 or more characters"
-  //   ).isLength({ min: 6 }),
-  // ],
+  // do some checking/ valiation
+  [
+    check(
+      "password",
+      "Please enter a password with 6 or more characters"
+    ).isLength({ min: 6 }),
+  ],
   async (req, res) => {
     ///// this is part of the error checking, not sure  if this is the place
     ///check to make sure that the passwords entered in the form match one anohter
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //   return res.status(400).json({ errors: errors.array() });
-    // }
-    const { password, token } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { password } = req.body;
+    const { token } = req.params;
+    // this console.log is showing the token when I do the put from postman
+    // console.log(token);
+    // //this console.log is showing the password when I do the put from postman
+    // console.log(password);
     //find the user
     try {
       const user = await User.findOne({
@@ -196,15 +185,14 @@ router.put(
       if (!user) {
         return res.status(404).json({ msg: "something is up with the token" });
       }
-      // set the new pass word as the password
-      // is this the syntax to update teh users password
-      user = new User({
-        password,
-      });
+
       // do all the salt and bcrpt work
       const salt = await bcrypt.genSalt(10);
-
+      // salt and hash the new password
       user.password = await bcrypt.hash(password, salt);
+
+      // user.resetToken = "undefined";
+      // user.resetTokenExpiration = "undefined";
 
       await user.save();
 
