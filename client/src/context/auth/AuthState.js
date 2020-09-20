@@ -189,7 +189,9 @@ const AuthState = (props) => {
     };
     try {
       const res = await axios.put(`/api/auth/reset/${token}`, token, config);
-
+      //TODO https://www.udemy.com/course/the-complete-react-native-and-redux-course/learn/lecture/15708424#overview
+      // res should be an object with a token property check this
+      // TODO console.log(res.data);
       dispatch({
         type: RESET_SUCCESS,
         payload: res.data,

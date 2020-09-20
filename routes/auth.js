@@ -139,7 +139,7 @@ router.post(
             subject: "Reset password has been requested ",
             html: `
           <p>You requested a password reset</p>
-          <p>Click this <a href="http://localhost:3000/api/auth/reset/${token}">link</a> to set a new password.</p>
+          <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</p>
         `,
           });
         });
@@ -150,7 +150,23 @@ router.post(
     }
   }
 );
-
+// @route     GET
+// @desc      Get the token
+// @access    Private- need the token
+// router.get("/reset/:token", auth, async (req, res) => {
+//   try {
+//     const token = req.params.token;
+//     const user = await User.findOne({
+//       resetToken: token,
+//       resetTokenExpiration: { $gt: Date.now() },
+//     });
+//     // or is this res.render("/reset", user.token)
+//     res.json(user);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Server Error");
+//   }
+// });
 // @route     PUT  /reset
 // @desc    reset page where user adds new PW
 // @access    Private
@@ -170,12 +186,7 @@ router.put(
     // if (!errors.isEmpty()) {
     //   return res.status(400).json({ errors: errors.array() });
     // }
-    const { password } = req.body;
-    const { token } = req.params;
-    // this console.log is showing the token when I do the put from postman
-    console.log(token);
-    //this console.log is showing the password when I do the put from postman
-    console.log(password);
+    const { password, token } = req.body;
     //find the user
     try {
       const user = await User.findOne({
@@ -185,14 +196,15 @@ router.put(
       if (!user) {
         return res.status(404).json({ msg: "something is up with the token" });
       }
-
+      // set the new pass word as the password
+      // is this the syntax to update teh users password
+      user = new User({
+        password,
+      });
       // do all the salt and bcrpt work
       const salt = await bcrypt.genSalt(10);
-      // salt and hash the new password
-      user.password = await bcrypt.hash(password, salt);
 
-      user.resetToken = "undefined";
-      user.resetTokenExpiration = "undefined";
+      user.password = await bcrypt.hash(password, salt);
 
       await user.save();
 
@@ -228,7 +240,7 @@ router.put(
       // });
       /// redirect to the home page
     } catch (error) {
-      console.error(error.message);
+      console.error(err.message);
       res.status(500).send("Server Error");
     }
   }
