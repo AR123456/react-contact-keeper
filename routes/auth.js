@@ -139,7 +139,7 @@ router.post(
             subject: "Reset password has been requested ",
             html: `
           <p>You requested a password reset</p>
-          <p>Click this <a href="http://localhost:3000/api/auth/reset/${token}">link</a> to set a new password.</p>
+          <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</p>
         `,
           });
         });
@@ -156,26 +156,26 @@ router.post(
 // @access    Private
 router.put(
   "/reset/:token",
-  // do some checking/ valiation but not sure if it belongs here
-  // [
-  //   check(
-  //     "password",
-  //     "Please enter a password with 6 or more characters"
-  //   ).isLength({ min: 6 }),
-  // ],
+  // do some checking/ valiation
+  [
+    check(
+      "password",
+      "Please enter a password with 6 or more characters"
+    ).isLength({ min: 6 }),
+  ],
   async (req, res) => {
     ///// this is part of the error checking, not sure  if this is the place
     ///check to make sure that the passwords entered in the form match one anohter
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //   return res.status(400).json({ errors: errors.array() });
-    // }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const { password } = req.body;
     const { token } = req.params;
     // this console.log is showing the token when I do the put from postman
-    console.log(token);
-    //this console.log is showing the password when I do the put from postman
-    console.log(password);
+    // console.log(token);
+    // //this console.log is showing the password when I do the put from postman
+    // console.log(password);
     //find the user
     try {
       const user = await User.findOne({
@@ -191,8 +191,8 @@ router.put(
       // salt and hash the new password
       user.password = await bcrypt.hash(password, salt);
 
-      user.resetToken = "undefined";
-      user.resetTokenExpiration = "undefined";
+      // user.resetToken = "undefined";
+      // user.resetTokenExpiration = "undefined";
 
       await user.save();
 
@@ -228,7 +228,7 @@ router.put(
       // });
       /// redirect to the home page
     } catch (error) {
-      console.error(error.message);
+      console.error(err.message);
       res.status(500).send("Server Error");
     }
   }
