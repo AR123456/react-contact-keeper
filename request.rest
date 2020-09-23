@@ -25,6 +25,14 @@
 #     "password":"mypassword"
 # }
 
-POST http://localhost:3000/requestReset
+
+# POST http://localhost:3000/requestReset
+# Content-Type: application/json
+
+PUT http://localhost:3000/api/auth/reset/969375938af668fa4037bc51e748b976b3a765aa3975a18c1c29d0062501dc5d
 Content-Type: application/json
 
+{
+    "email":"test@test.com",
+    "password":"mypassword"
+}
