@@ -10,6 +10,13 @@ const Reset = (props) => {
   const { setAlert } = alertContext;
 
   const { reset, error, clearErrors } = authContext;
+  //TODO just get token from the object?
+  const token = { token: props.match.params.token };
+
+  //TODO this console log is showing the token object but when it gets to the console log
+  //in the route in auth.js it is showing object Object this shows the console.log every time
+  // a key is entered
+  console.log("token in Reset.js", token);
 
   useEffect(() => {
     // check the token in url vs is there a user with this token in the DB
@@ -29,9 +36,11 @@ const Reset = (props) => {
 
     password: "",
     password2: "",
+    token,
   });
   // destructuring so that we can use as variables
   const { password, password2 } = user;
+
   // wireing up the onChange in the input's in the form groups
   // take in the event, setUser object , need current values so use ... the spread operator
   // using the name attributes on the inputs and set the value to what is in the value attribute
@@ -50,6 +59,7 @@ const Reset = (props) => {
     } else {
       reset({
         password,
+        token,
       });
     }
   };

@@ -180,15 +180,20 @@ const AuthState = (props) => {
   //// TODO  set new password - will get the token from the url, match it with the token
   // in the db, allow for new password, update the db , log in user and set local storage with logged in token
   //put request wiht matching put request in auth routes
-  const reset = async (token, password) => {
+
+  // const reset = async (token, password) => {
+  const reset = async (user, token) => {
     // console.log("new Password ");
+    console.log("user inside auth state", user);
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
     try {
-      const res = await axios.put(`/api/auth/reset/${token}`, token, config);
+      //TODO try hard coding the token in here to see if the route works then
+      const res = await axios.put(`/api/auth/reset/${token}`, user, config);
+      // const res = await axios.put("/api/auth/reset/:token", user, config);
 
       dispatch({
         type: RESET_SUCCESS,

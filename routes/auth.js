@@ -173,9 +173,9 @@ router.put(
     const { password } = req.body;
     const { token } = req.params;
     // this console.log is showing the token when I do the put from postman
-    console.log(token);
+    console.log("token in reset route", token);
     //this console.log is showing the password when I do the put from postman
-    console.log(password);
+    console.log("password in reset route", password);
     //find the user
     try {
       const user = await User.findOne({
