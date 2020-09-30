@@ -191,9 +191,27 @@ const AuthState = (props) => {
       },
     };
     try {
-      //TODO try hard coding the token in here to see if the route works then
+      //TODO get the token value vs the object ????
       const res = await axios.put(`/api/auth/reset/${token}`, user, config);
-      // const res = await axios.put("/api/auth/reset/:token", user, config);
+      //THIS WORKS TOO
+      // const res = await axios.put(
+      //   `/api/auth/reset/${"a1095c98dd6d431906e1bf30759e1517c9960fd68a056327463866287fd46909"}`,
+      //   user,
+      //   config
+      // );
+
+      //this works
+      // const res = await axios.put(
+      //   `/api/auth/reset/bfeabf43c0d13d553b6b6697c1225f655f2f23f6e0250246eb40054fdd7b7c59`,
+      //   user,
+      //   config
+      // );
+      // this works
+      // const res = await axios.put(
+      //   "http://localhost:3000/api/auth/reset/bfeabf43c0d13d553b6b6697c1225f655f2f23f6e0250246eb40054fdd7b7c59",
+      //   user,
+      //   config
+      // );
 
       dispatch({
         type: RESET_SUCCESS,
