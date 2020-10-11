@@ -190,9 +190,11 @@ const AuthState = (props) => {
         "Content-Type": "application/json",
       },
     };
+    console.log("user.token.token in AuthState.js", user.token.token);
     try {
       //TODO get the token value vs the object ????
-      const res = await axios.put(`/api/auth/reset/${token}`, user, config);
+      const res = await axios.put(`/api/auth/reset/${user.token.token}`, user, config);
+  
       //THIS WORKS TOO
       // const res = await axios.put(
       //   `/api/auth/reset/${"a1095c98dd6d431906e1bf30759e1517c9960fd68a056327463866287fd46909"}`,

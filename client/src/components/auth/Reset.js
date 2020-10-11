@@ -16,7 +16,8 @@ const Reset = (props) => {
   //TODO this console log is showing the token object but when it gets to the console log
   //in the route in auth.js it is showing object Object this shows the console.log every time
   // a key is entered
-  console.log("token in Reset.js", token);
+  console.log("token.token in Reset.js", token.token);
+
 
   useEffect(() => {
     // check the token in url vs is there a user with this token in the DB
