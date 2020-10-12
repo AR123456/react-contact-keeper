@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mon",
+  "mongoURI": "mongodb+srv://",
   "jwtSecret": "secret"
 }
